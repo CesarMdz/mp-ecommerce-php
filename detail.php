@@ -145,14 +145,14 @@ require __DIR__  . '/vendor/autoload.php';
                                                  $item->id = 1234;
                                                  $item->title = $_POST['title'];
                                                  $item->description = 'Dispositivo móvil de Tienda e-commerce';
-                                                 $item->picture_url= 'https://cesarmdz-mp-commerce-php.herokuapp.com/'.$_POST['img'];
+                                                 
                                                  $item->quantity = $_POST['unit'];
                                                  $item->currency_id = "MXN";
                                                  $item->unit_price = $_POST['price'];
                                                  $preference->items = array($item);
                                                  
                                                  $payer = new MercadoPago\Payer();
-                                                 $payer->name = 'Lalo ';
+                                                 $payer->name = 'Lalo';
                                                  $payer->surname = "Landa";
                                                  $payer->email = 'test_user_58295862@testuser.com';
                                                  $payer->date_created = date(DATE_ATOM);

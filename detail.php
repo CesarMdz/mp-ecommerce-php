@@ -130,7 +130,11 @@
                                             <?php echo "$" . $_POST['unit'] ?>
                                         </h3>
                                     </div>
-                                    <button type="submit" class="mercadopago-button" formmethod="post">Pagar</button>
+                                    <?php   
+                                       $base_url="    https://api.mercadopago.com/v1/payments?access_token=APP_USR-6718728269189792-112017-dc8b338195215145a4ec035fdde5cedf-491494389";
+
+                                    ?>
+                                    <a type="button" href="<?php echo $base_url; ?>" class="mercadopago-button" formmethod="post">Pagar</button>
                                 </div>
                             </div>
                         </div>

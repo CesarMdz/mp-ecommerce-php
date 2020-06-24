@@ -142,45 +142,53 @@ require __DIR__  . '/vendor/autoload.php';
                                                  
                                                  // Crea un ítem en la preferencia
                                                  $item = new MercadoPago\Item();
-                                                 $item->id = 123;
-                                                 $item->title = 'Compra en mercado';
-                                                 $item->description = 'Orden ';
-                                                 $item->quantity = 1;
+                                                 $item->id = 1234;
+                                                 $item->title = $_POST['title'];
+                                                 $item->description = 'Dispositivo móvil de Tienda e-commerce';
+                                                 $item->picture_url= 'https://cesarmdz-mp-commerce-php.herokuapp.com/'.$_POST['img'];
+                                                 $item->quantity = $_POST['unit'];
                                                  $item->currency_id = "MXN";
-                                                 $item->unit_price = 12.10;
+                                                 $item->unit_price = $_POST['price'];
                                                  $preference->items = array($item);
                                                  
                                                  $payer = new MercadoPago\Payer();
-                                                 $payer->name = 'Cliente';
-                                                 $payer->surname = "prueba";
-                                                 $payer->email = 'email@email.com';
+                                                 $payer->name = 'Lalo ';
+                                                 $payer->surname = "Landa";
+                                                 $payer->email = 'test_user_58295862@testuser.com';
                                                  $payer->date_created = date(DATE_ATOM);
                                                  $payer->phone = array(
                                                      "area_code" => "52",
-                                                     "number" => '987654321'
-                                                   );
-                                                  $payer->identification = array(
-                                                     "type" => "DNI",
-                                                     "number" => '1239009'
-                                                     );
-                                                   $payer->address = array(
-                                                     "street_name" => 'calle num ',
-                                                     "street_number" => '123',
-                                                     "zip_code" => '12312'
+                                                     "number" => '5549737300'
                                                    );
                                                  
+                                                   $payer->address = array(
+                                                     "street_name" => 'Insurgentes Sur',
+                                                     "street_number" => '1602',
+                                                     "zip_code" => '03940'
+                                                   );
+                                                  
+                                                   $preference->payment_methods = array(
+                                                     "excluded_payment_methods" => array(
+                                                       array("id" => "amex")
+                                                     ),
+                                                     "excluded_payment_types" => array(
+                                                       array("id" => "atm")
+                                                     ),
+                                                     "installments" => 6
+                                                   );
                                                  $preference->back_urls = array(
                                                      "success" => "https://cesarmdz-mp-commerce-php.herokuapp.com/success.php",
                                                      "failure" => "https://cesarmdz-mp-commerce-php.herokuapp.com/failure.php",
                                                      "pending" => "https://cesarmdz-mp-commerce-php.herokuapp.com/pending.php"
                                                  );
                                                  $preference->auto_return = "approved";
-                                                 $preference->external_reference = '1234'; 
+                                                 $preference->external_reference = 'cesar.mendez.hernandez@gmail.com'; 
                                                  $preference->save();
                                                  ?>
 
                                     
-                                    <a type="button" href="<?php echo $preference->init_point; ?>" class="mercadopago-button" formmethod="post">Pagar</a>
+                                    <a type="button" href="<?php echo $preference->init_point; ?>" class="mercadopago-button" formmethod="post" data-button-label="Pagar la
+compra"></a>
                                 </div>
                             </div>
                         </div>

@@ -142,7 +142,7 @@ exit;
                                     </div>
 
                                     <?php   
-                                        MercadoPago\SDK::setAccessToken('TEST-2715478544766023-091119-711c045e5944e37e1443f14c75c16049-147706667');
+                                        MercadoPago\SDK::setAccessToken('APP_USR-6718728269189792-112017-dc8b338195215145a4ec035fdde5cedf-491494389');
                                         MercadoPago\SDK::setIntegratorId("dev_24c65fb163bf11ea96500242ac130004");
                                                  
                                                     

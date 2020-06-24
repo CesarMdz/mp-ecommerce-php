@@ -1,3 +1,6 @@
+<?php
+require __DIR__  . '/vendor/autoload.php';
+?>
 <!DOCTYPE html>
 <html class="supports-animation supports-columns svg no-touch no-ie no-oldie no-ios supports-backdrop-filter as-mouseuser" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
@@ -131,10 +134,53 @@
                                         </h3>
                                     </div>
                                     <?php   
-                                       $base_url="    https://api.mercadopago.com/v1/payments?access_token=APP_USR-6718728269189792-112017-dc8b338195215145a4ec035fdde5cedf-491494389";
+                                        MercadoPago\SDK::setAccessToken('TEST-2715478544766023-091119-711c045e5944e37e1443f14c75c16049-147706667');
+                                                 
+                                                     //...
+                                                    // Crea un objeto de preferencia
+                                                 $preference = new MercadoPago\Preference();
+                                                 
+                                                 // Crea un ítem en la preferencia
+                                                 $item = new MercadoPago\Item();
+                                                 $item->id = 123;
+                                                 $item->title = 'Compra en mercado';
+                                                 $item->description = 'Orden ';
+                                                 $item->quantity = 1;
+                                                 $item->currency_id = "MXN";
+                                                 $item->unit_price = 12.10;
+                                                 $preference->items = array($item);
+                                                 
+                                                 $payer = new MercadoPago\Payer();
+                                                 $payer->name = 'Cliente';
+                                                 $payer->surname = "prueba";
+                                                 $payer->email = 'email@email.com';
+                                                 $payer->date_created = date(DATE_ATOM);
+                                                 $payer->phone = array(
+                                                     "area_code" => "52",
+                                                     "number" => '987654321'
+                                                   );
+                                                  $payer->identification = array(
+                                                     "type" => "DNI",
+                                                     "number" => '1239009'
+                                                     );
+                                                   $payer->address = array(
+                                                     "street_name" => 'calle num ',
+                                                     "street_number" => '123',
+                                                     "zip_code" => '12312'
+                                                   );
+                                                 
+                                                 $preference->back_urls = array(
+                                                     "success" => "https://cesarmdz-mp-commerce-php.herokuapp.com/success.php",
+                                                     "failure" => "https://cesarmdz-mp-commerce-php.herokuapp.com/failure.php",
+                                                     "pending" => "https://cesarmdz-mp-commerce-php.herokuapp.com/pending.php"
+                                                 );
+                                                 $preference->auto_return = "approved";
+                                                 $preference->external_reference = '1234'; 
+                                                 $preference->save();
+                                                 ?>
 
-                                    ?>
-                                    <a type="button" href="<?php echo $base_url; ?>" class="mercadopago-button" formmethod="post">Pagar</button>
+                                    
+                                    <a type="button" href="<?php echo $preference->init_point; ?>" class="mercadopago-button" formmethod="post">Pagar</a>
                                 </div>
                             </div>
                         </div>

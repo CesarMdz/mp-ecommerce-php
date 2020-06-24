@@ -197,7 +197,7 @@ exit;
                                                  ?>
 
                                     
-                                                <a href="<?php echo $preference->init_point; ?>">Pagar la compra</a>
+                                                <a class="mercadopago-button" style="padding:12px;" href="<?php echo $preference->init_point; ?>">Pagar la compra</a>
                                 </div>
                             </div>
                         </div>

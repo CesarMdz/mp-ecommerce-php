@@ -142,7 +142,7 @@ exit;
                                     </div>
 
                                     <?php   
-                                        MercadoPago\SDK::setAccessToken('APP_USR-2827457341168958-041607-755d8c9f5cd6bd292cff47d0cd9fdfbf-535650015');
+                                        MercadoPago\SDK::setAccessToken('APP_USR-6718728269189792-112017-dc8b338195215145a4ec035fdde5cedf-491494389');
                                         MercadoPago\SDK::setIntegratorId("dev_24c65fb163bf11ea96500242ac130004");
                                                  
                                                     
@@ -153,7 +153,7 @@ exit;
                                                      $item->id = 1234;
                                                      $item->title = $_POST['title'];
                                                      $item->description = 'Dispositivo móvil de Tienda e-commerce';
-                                                     $item->picture_url = 'http://localhost/mp-ecommerce/'.$_POST['img'];
+                                                     $item->picture_url = 'https://cesarmdz-mp-commerce-php.herokuapp.com/assets/'.$_POST['img'];
                                                      $item->quantity = $_POST['unit'];
                                                      $item->currency_id = "MXN";
                                                      $item->unit_price =$_POST['price'];

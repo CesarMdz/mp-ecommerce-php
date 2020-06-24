@@ -142,7 +142,7 @@ exit;
                                     </div>
 
                                     <?php   
-                                        MercadoPago\SDK::setAccessToken('APP_USR-6718728269189792-112017-dc8b338195215145a4ec035fdde5cedf-491494389');
+                                        MercadoPago\SDK::setAccessToken('APP_USR-2827457341168958-041607-755d8c9f5cd6bd292cff47d0cd9fdfbf-535650015');
                                         MercadoPago\SDK::setIntegratorId("dev_24c65fb163bf11ea96500242ac130004");
                                                  
                                                     
@@ -162,7 +162,7 @@ exit;
                                                      $payer = new MercadoPago\Payer();
                                                      $payer->name = 'Lalo';
                                                      $payer->surname = 'Landa';
-                                                     $payer->email = 'test_user_58295862@testuser.com';
+                                                     $payer->email = 'test_user_otro@testuser.com';
                                                      $payer->date_created = date(DATE_ATOM);
                                                      $payer->phone = array(
                                                          "area_code" => "52",

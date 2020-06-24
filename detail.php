@@ -1,5 +1,10 @@
 <?php
-require __DIR__  . '/vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
+
+if(!isset($_POST['title'])){
+    header('Location: ./');
+exit;
+}
 ?>
 <!DOCTYPE html>
 <html class="supports-animation supports-columns svg no-touch no-ie no-oldie no-ios supports-backdrop-filter as-mouseuser" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -14,6 +19,7 @@ require __DIR__  . '/vendor/autoload.php';
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
+  <!--  <script src="https://www.mercadopago.com/v2/security.js" view="item"></script> -->
 
     <link rel="stylesheet" href="./assets/category-landing.css" media="screen, print">
 
@@ -127,67 +133,71 @@ require __DIR__  . '/vendor/autoload.php';
                                             </h3>
                                         </div>
                                         <h3 >
-                                            <?php echo $_POST['price'] ?>
+                                            <?php echo "$" .$_POST['price'] ?>
                                         </h3>
                                         <h3 >
-                                            <?php echo "$" . $_POST['unit'] ?>
+                                            <?php echo  $_POST['unit'] ?>
+                                            
                                         </h3>
                                     </div>
+
                                     <?php   
                                         MercadoPago\SDK::setAccessToken('APP_USR-6718728269189792-112017-dc8b338195215145a4ec035fdde5cedf-491494389');
+                                        MercadoPago\SDK::setIntegratorId("dev_24c65fb163bf11ea96500242ac130004");
                                                  
-                                                     //...
-                                                    // Crea un objeto de preferencia
-                                                 $preference = new MercadoPago\Preference();
-                                                 
-                                                 // Crea un ítem en la preferencia
-                                                 $item = new MercadoPago\Item();
-                                                 $item->id = 1234;
-                                                 $item->title = $_POST['title'];
-                                                 $item->description = 'Dispositivo móvil de Tienda e-commerce';
-                                                 
-                                                 $item->quantity = $_POST['unit'];
-                                                 $item->currency_id = "MXN";
-                                                 $item->unit_price = $_POST['price'];
-                                                 $preference->items = array($item);
-                                                 
-                                                 $payer = new MercadoPago\Payer();
-                                                 $payer->name = 'Lalo';
-                                                 $payer->surname = "Landa";
-                                                 $payer->email = 'test_user_58295862@testuser.com';
-                                                 $payer->date_created = date(DATE_ATOM);
-                                                 $payer->phone = array(
-                                                     "area_code" => "52",
-                                                     "number" => '5549737300'
-                                                   );
-                                                 
-                                                   $payer->address = array(
-                                                     "street_name" => 'Insurgentes Sur',
-                                                     "street_number" => '1602',
-                                                     "zip_code" => '03940'
-                                                   );
-                                                  
-                                                   $preference->payment_methods = array(
-                                                     "excluded_payment_methods" => array(
-                                                       array("id" => "amex")
-                                                     ),
-                                                     "excluded_payment_types" => array(
-                                                       array("id" => "atm")
-                                                     ),
-                                                     "installments" => 6
-                                                   );
-                                                 $preference->back_urls = array(
-                                                     "success" => "https://cesarmdz-mp-commerce-php.herokuapp.com/success.php",
-                                                     "failure" => "https://cesarmdz-mp-commerce-php.herokuapp.com/failure.php",
-                                                     "pending" => "https://cesarmdz-mp-commerce-php.herokuapp.com/pending.php"
-                                                 );
-                                                 $preference->auto_return = "approved";
-                                                 $preference->external_reference = 'cesar.mendez.hernandez@gmail.com'; 
-                                                 $preference->save();
+                                                    
+                                                     $preference = new MercadoPago\Preference();
+
+                                                    
+                                                     $item = new MercadoPago\Item();
+                                                     $item->id = 1234;
+                                                     $item->title = $_POST['title'];
+                                                     $item->description = 'Dispositivo móvil de Tienda e-commerce';
+                                                     $item->picture_url = 'http://localhost/mp-ecommerce/'.$_POST['img'];
+                                                     $item->quantity = $_POST['unit'];
+                                                     $item->currency_id = "MXN";
+                                                     $item->unit_price =$_POST['price'];
+                                                     $preference->items = array($item);
+                                                     
+                                                     $payer = new MercadoPago\Payer();
+                                                     $payer->name = 'Lalo';
+                                                     $payer->surname = 'Landa';
+                                                     $payer->email = 'test_user_58295862@testuser.com';
+                                                     $payer->date_created = date(DATE_ATOM);
+                                                     $payer->phone = array(
+                                                         "area_code" => "52",
+                                                         "number" => '5549737300'
+                                                       );
+                                                   
+                                                       $payer->address = array(
+                                                         "street_name" => 'Insurgentes Sur',
+                                                         "street_number" => '1602',
+                                                         "zip_code" => '03940'
+                                                       );
+
+                                                       $preference->payment_methods = array(
+                                                        "excluded_payment_methods" => array(
+                                                          array("id" => "amex")
+                                                        ),
+                                                        "excluded_payment_types" => array(
+                                                          array("id" => "atm")
+                                                        ),
+                                                        "installments" => 6
+                                                      );
+                                                     
+                                                     $preference->back_urls = array(
+                                                         "success" => "https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/success.php",
+                                                         "failure" => "https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/failure.php",
+                                                         "pending" => "https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/pending.php"
+                                                     );
+                                                     $preference->notification_url="https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/notificacion.php";
+                                                     $preference->auto_return = "approved";
+                                                     $preference->external_reference = 'cesar.mendez.hernandez@gmail.com'; 
+                                                     $preference->save();
                                                  ?>
 
                                     
-                                    <a type="button" href="<?php echo $preference->init_point; ?>" class="mercadopago-button" formmethod="post">Pagar</a>
+                                                <a href="<?php echo $preference->init_point; ?>">Pagar la compra</a>
                                 </div>
                             </div>
                         </div>

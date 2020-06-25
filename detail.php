@@ -190,7 +190,7 @@ exit;
                                                         ),
                                                         "installments" => 6
                                                       );
-                                                     $preference->payer = $payer;
+                                                     $preference->payer = array($payer);
                                                        
                                                      
                                                      $preference->save();

@@ -180,6 +180,7 @@ exit;
                                                         "street_number" => 1602,
                                                         "zip_code" => "03940",
                                                       );
+                                                       $preference->payer = $payer;
                                                         
                                                       $preference->payment_methods = array(
                                                         "excluded_payment_methods" => array(
@@ -190,7 +191,7 @@ exit;
                                                         ),
                                                         "installments" => 6
                                                       );
-                                                     $preference->payer = array($payer);
+                                                    
                                                        
                                                      
                                                      $preference->save();

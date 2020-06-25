@@ -148,7 +148,7 @@ exit;
                                                     
                                                      $preference = new MercadoPago\Preference();
                                                       $preference->external_reference = "cesar.mendez.hernandez@gmail.com";
-                                                      $preference->notification_url="https://en0yefrfmpi5vi.x.pipedream.net";
+                                                      $preference->notification_url="https://cesarmdz-mp-commerce-php.herokuapp.com/webhooks.php";
                                                       $preference->back_urls = array(
                                                          "success" => "https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/success.php",
                                                          "failure" => "https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/failure.php",

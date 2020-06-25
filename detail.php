@@ -147,7 +147,7 @@ exit;
                                                  
                                                     
                                                      $preference = new MercadoPago\Preference();
-                                                      $preference->external_reference = $paymentData['external_reference'];
+                                                      $preference->external_reference = "cesar.mendez.hernandez@gmail.com";
                                                       $preference->notification_url="https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/notificacion.php";
                                                       $preference->back_urls = array(
                                                          "success" => "https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/success.php",
@@ -160,8 +160,8 @@ exit;
                                                      $item->id = 1234;
                                                      $item->title = $_POST['title'];
                                                      $item->description = "Dispositivo móvil de Tienda e-commerce";
-                                                     $item->picture_url = "https://cesarmdz-mp-commerce-php.herokuapp.com/assets/".$_POST['img'];
-                                                     $item->quantity = $_POST['unit'];
+                                                     $item->picture_url = "https://cesarmdz-mp-commerce-php.herokuapp.com/".$_POST['img'];
+                                                     $item->quantity = 1;
                                                      $item->currency_id = "MXN";
                                                      $item->unit_price =$_POST['price'];
                                                      $preference->items = array($item);

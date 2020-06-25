@@ -17,7 +17,10 @@ if ($topic == "payment" && !is_null($id)) {
         print_r($payment_info["status"]);
         print '</pre>';
 
-        die('Tratamento para retornos 4XX nas consulta a /v1/payments/:ID');
+        die('error/v1/payments/:ID');
+	    
+    }else{
+    echo 'no hay datos post';
     }
 
     // verifica o status do payment

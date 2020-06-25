@@ -181,6 +181,8 @@ exit;
                                                      $payer = new MercadoPago\Payer();
                                                      $payer->name = "Lalo";
                                                      $payer->surname = "Landa";
+                                                     $payer->first_name="Lalo";
+                                                     $payer->last_name="Lalanda";
                                                      $payer->email = "test_user_58295862@testuser.com";
                                                      $payer->date_created = date(DATE_ATOM);
                                                      $payer->phone = array(

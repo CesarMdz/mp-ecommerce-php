@@ -4,66 +4,77 @@ require 'vendor/autoload.php';
 
 	MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb1955bc05b1d7dd0977a8-592190948');
 
-     $payment = '{ello:friend}';
-            write_json_log($payment,"./log/webhooksTest-PaymentStandard-".$id."-out-".date('Y-m-d').".json");
-         
+      $id = isset($_POST["id"]) ? $_POST["id"] : null;
+$topic = isset($_POST["type"]) ? $_POST["type"] : null;
 
-     
-    
+if ($topic == "payment" && !is_null($id)) {
+    // GET as informacoes do payment ID recebido no request
+    $payment_info = $mp->get_payment_info($id);
 
-    function write_json_log($content, $file){
-    	
-        try {
-            //file_fix_directory(dirname($file));
-    
-            if (gettype($content) == 'string') {
-                $json = json_encode(array('data' => json_decode($content, true)), JSON_PRETTY_PRINT);
-                file_put_contents("php://stderr", $json);
-                if (file_put_contents($file, $json)) {
-                    return true;
-                }
-            } else {
-                $json = json_encode(array('data' => $content), JSON_PRETTY_PRINT);
-                file_put_contents("php://stderr", $json);
-                if (file_put_contents($file, $json)) {
-                    return true;
-                }
-            }
-            return false;
-        } catch (Exception $e) {
-            write_general_log($content, $file);
-        }
+    if (intVal($payment_info["status"]) > 400) {
+        print '<pre>';
+        print_r('Status: ');
+        print_r($payment_info["status"]);
+        print '</pre>';
+
+        die('Tratamento para retornos 4XX nas consulta a /v1/payments/:ID');
     }
 
-    function write_general_log($content, $file){
-    	
-        try {
-            $general = dirname($file) . "general.log";
-    
-            //file_fix_directory(dirname($file));
-    
-            if (gettype($content) == 'string') {
-                $json = json_encode(array('file' => $file, 'data' => json_decode($content, true)), JSON_PRETTY_PRINT);
-                //error_log($json);
-                file_put_contents("php://stderr", $json,FILE_APPEND);
-                if (file_put_contents($general, $json, LOCK_EX)) {
-                    return true;
-                }
-            } else {
-                $json = json_encode(array('file' => $file, 'data' => $content), JSON_PRETTY_PRINT);
-                //error_log($json);
-                file_put_contents("php://stderr", $json,FILE_APPEND);
-                if (file_put_contents($general, $json, LOCK_EX)) {
-                    return true;
-                }
-            }
-            return false;
-        } catch (Exception $e) {
-            file_fix_directory(dirname($file));
-            echo($e->getMessage);
-        }
+    // verifica o status do payment
+    $payment_status = $payment_info["response"]["status"];
+    $payment_status_detail = $payment_info["response"]["status_detail"];
+
+    /**
+     * Insira o seu código para atualizar o status do pagamento aqui
+     * ...
+     */
+    print '<pre>';
+    print_r('Status: ');
+    print_r($payment_status);
+    print '</pre>';
+    print '<pre>';
+    print_r('Status Detail: ');
+    print_r($payment_status_detail);
+    print '</pre>';
+
+    // verifica se possui order (merchant_order)
+    $order_id = $payment_info["response"]["order"]["id"];
+    $merchant_order_info = $mp->get('/merchant_orders/' . $order_id);
+
+    // valida se encontrou a order
+    if (intVal($merchant_order_info["status"]) > 400) {
+        print '<pre>';
+        print_r('Order não encontrada. Status: ');
+        print_r($merchant_order_info["status"]);
+        print '</pre>';
+
+        die('Tratamento para retornos 4XX nas consulta a /v1/payments/:ID');
     }
 
+    // Se encontrou a order, então percorre todos os pagamentos que comppoe este pedido
+    if (count($merchant_order_info["response"]["payments"]) > 0) {
+        foreach ($merchant_order_info["response"]["payments"] as $payment) {
+            /**
+             * Loop para verificar todos os pagamentos que compõe a order
+             * Insira o seu código para atualizar o status do pagamento aqui
+             * ...
+             */
+            print '<pre>';
+            print_r('Order - Payment ID: ');
+            print_r($payment["id"]);
+            print '</pre>';
+            print '<pre>';
+            print_r('Order - Payment Status: ');
+            print_r($payment["status"]);
+            print '</pre>';
+            print '<pre>';
+            print_r('Order - Payment Status Detail: ');
+            print_r($payment["status_detail"]);
+            print '</pre>';
+
+        }
+    }
+}
 ?>
 
 

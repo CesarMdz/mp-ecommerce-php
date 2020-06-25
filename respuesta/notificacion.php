@@ -1,51 +1,24 @@
 <?php
 require '../vendor/autoload.php';
-MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb1955bc05b1d7dd0977a8-592190948');
-$id = '';
-$type = '';
+ if (isset($_GET["id"], $_GET["topic"])) {
+	MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb1955bc05b1d7dd0977a8-592190948');
+	 return response('OK', 201);
 
-foreach($_GET as $key=>$value){
-    if (strpos($key, 'id') !== false) {
-        $id = $value;
-    }
-    if (strpos($key, 'type') !== false) {
-        $type = $value;
-    }    
-}
+        if (!isset($_GET["id"], $_GET["topic"]) || !ctype_digit($_GET["id"])) {
+            abort(404);
+        }
 
-// Check mandatory parameters
-if ( empty($id) || empty($type) ) {
-    echo "---------- Argumentos no validos ------------------<br/>";
-    http_response_code(400);
-    return;
-}
-
-write_json_log(array('id' => $id, 'type' => $type), DIR_MP_LOG . "ipnTest-".date('Y-m-d').".json");
-
-if($type == 'payment')
-{
-    $payment_info = $mercadopago->getPaymentStandard($id);
-    write_json_log($payment_info, DIR_MP_LOG . "ipnTest-PaymentStandard-".$id."-out-".date('Y-m-d').".json");
-    
-    if (is_array($payment_info) && array_key_exists('order', $payment_info) ) 
-    {
-        $merchant_order_info = $mercadopago->getMerchantOrder($payment_info["order"]["id"]);
-        write_json_log($merchant_order_info, DIR_MP_LOG . "ipnTest-MerchantOrder-".$payment_info["order"]["id"]."-out-".date('Y-m-d').".json");
-    
-        echo "---------- Orden de pago recibido correctamente ------------------";
-    }
-    else {
-        echo "--------- Notificado del pago no valida -----------------------";
-    }
-}
-else if($type == 'merchant_order')
-{
-    $merchant_order_info = $mercadopago->getMerchantOrder($id);
-    write_json_log($merchant_order_info, DIR_MP_LOG . "ipnTest-MerchantOrder-".$id."-out-".date('Y-m-d').".json");
-
-    echo "---------- Orden de pago recibido correctamente ------------------";
-}
-else {
-    echo "---------- Notificacion no valida ------------------";
-}                
+       
+        $payment = null;
+	 
+	 switch ($_GET["topic"]) {
+            case "payment":
+                $payment = MercadoPago\Payment::find_by_id($_GET["id"]);
+                 write_json_log($payment, DIR_MP_LOG . "ipnTest-PaymentStandard-".$id."-out-".date('Y-m-d').".json");
+                
+                break;
+            
+        }
+	 
+ }
 ?>

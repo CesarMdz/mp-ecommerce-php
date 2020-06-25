@@ -1,51 +1,27 @@
 <?php
-require '../vendor/autoload.php';
+http_response_code(200);
 
-MercadoPago\SDK::setAccessToken("TEST-2715478544766023-091119-711c045e5944e37e1443f14c75c16049-147706667");
+foreach ($_GET as $key => $value) {
+    $response .= htmlspecialchars($key)."=".htmlspecialchars($value)."&";
+}
 
-switch($_POST["type"]) {
-            case "payment":
-                $payment = MercadoPago\Payment.find_by_id($_POST["id"]);
-                break;
-            case "plan":
-                $plan = MercadoPago\Plan.find_by_id($_POST["id"]);
-                break;
-            case "subscription":
-                $plan = MercadoPago\Subscription.find_by_id($_POST["id"]);
-                break;
-            case "invoice":
-                $plan = MercadoPago\Invoice.find_by_id($_POST["id"]);
-                break;
-        }
-        
-        if (isset($payment) || $payment != NULL){
-            $cart_id = explode('_', $payment['external_reference']);
-
-            $order = new Order((int)Order::getOrderByCartId((int)$cart_id[1]));
-            $current_state = (int)$order->getCurrentState();
-
-            switch($payment['status']){
-                case 'approved':
-                    $order_state ="PS_OS_PAYMENT";
-                    $mensaje="El Pago ha sido aprobado y acreditado";
-                    break;
-                case 'pending' || 'authorized' || 'in_process':
-                    $order_state ="MERCADOPAGO_PENDING";
-                    $mensaje ="El Pago se encuentra Pendiente de Validación";
-                    break;
-                case 'rejected':
-                     $order_state ="MERCADOPAGO_REJECTED";
-                    $mensaje ="El Pago ha sido rechazado.";
-                    break;
-                default:
-                    $order_state ="MERCADOPAGO_FAILED";
-                    $mensaje ="El proceso de pago ha fallado.";
-                    break;                        
-            }
-            if($current_state!=Configuration::get($order_state)) $order->setCurrentState((int)Configuration::get($order_state));
-        }
-        exit();  
+$myfile = fopen("test.txt", "a");
+fwrite($myfile, "******************************************************************\n");
+fwrite($myfile, "* " . $response . "\n");
+fwrite($myfile, file_get_contents("php://input")) . "\n";
+fwrite($myfile, "\n\n");
+fclose($myfile);
 
 
+if ($_GET["topic"] == 'payment'){
 
+	$curl = "curl -X GET 'https://api.mercadopago.com/v1/payments/".$_GET["id"]."?access_token=APP_USR-8058997674329963-062418-89271e2424bb1955bc05b1d7dd0977a8-592190948'";
+  
+	$output = shell_exec($curl); 
+
+	$myfile = fopen("test.txt", "w");
+	fwrite($myfile, $output);
+	fclose($myfile);
+
+}
 ?>

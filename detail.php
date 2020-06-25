@@ -184,7 +184,6 @@ exit;
                                                      $payer->first_name="Lalo";
                                                      $payer->last_name="Lalanda";
                                                      $payer->email = "test_user_58295862@testuser.com";
-                                                     $payer->date_created = date(DATE_ATOM);
                                                      $payer->phone = array(
                                                          "area_code" => "52",
                                                          "number" => "5549737300"

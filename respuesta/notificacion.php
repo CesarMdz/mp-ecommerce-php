@@ -4,7 +4,7 @@ require '../vendor/autoload.php';
 
 MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb1955bc05b1d7dd0977a8-592190948');
 
-  
+  if(isset($_GET["topic"])){
 
     $merchant_order = null;
 
@@ -41,6 +41,10 @@ MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb195
     } else {
         print_r("Aún no pagado. No sueltes tu artículo.");
     }
+
+  }else{
+  	print_r("No sea recibido nada por GET");
+  }
 ?>
 
 

@@ -32,13 +32,14 @@ MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb195
     if($paid_amount >= $merchant_order->total_amount){
         if (count($merchant_order->shipments)>0) { // The merchant_order has shipments
             if($merchant_order->shipments[0]->status == "ready_to_ship") {
-                print_r("Totally paid. Print the label and release your item.");
+		    print_r($merchant_order);
+                print_r("Totalmente pagado Imprima la etiqueta y suelte su artículo.");
             }
         } else { // The merchant_order don't has any shipments
-            print_r("Totally paid. Release your item.");
+            print_r("Totalmente pagado Libera tu artículo.");
         }
     } else {
-        print_r("Not paid yet. Do not release your item.");
+        print_r("Aún no pagado. No sueltes tu artículo.");
     }
 ?>
 

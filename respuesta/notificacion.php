@@ -16,7 +16,7 @@ if ($_GET["topic"] == 'payment'){
   
 	$output = shell_exec($curl); 
 
-	$myfile = fopen("webhooks_output2.txt", "w");
+	$myfile = fopen("test.txt", "w");
 	fwrite($myfile, $output);
 	fclose($myfile);
 

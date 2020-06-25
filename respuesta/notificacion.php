@@ -7,7 +7,7 @@ require '../vendor/autoload.php';
       $id = isset($_POST["id"]) ? $_POST["id"] : null;
 $topic = isset($_POST["type"]) ? $_POST["type"] : null;
 
-  if(isset($_POST['type']){
+  if(isset($_POST['type'])){
 	  echo 'Se recibio algo';
   }else{
   	echo 'no se recibio nada';

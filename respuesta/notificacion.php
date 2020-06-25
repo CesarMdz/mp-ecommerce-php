@@ -1,24 +1,24 @@
 <?php
-require '../vendor/autoload.php';
- if (isset($_GET["id"], $_GET["topic"])) {
-	MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb1955bc05b1d7dd0977a8-592190948');
-	 return response('OK', 201);
+http_response_code(200);
 
-        if (!isset($_GET["id"], $_GET["topic"]) || !ctype_digit($_GET["id"])) {
-            abort(404);
-        }
+foreach ($_GET as $key => $value) {
+    $response .= htmlspecialchars($key)."=".htmlspecialchars($value)."&";
+}
 
-       
-        $payment = null;
-	 
-	 switch ($_GET["topic"]) {
-            case "payment":
-                $payment = MercadoPago\Payment::find_by_id($_GET["id"]);
-                 write_json_log($payment, DIR_MP_LOG . "ipnTest-PaymentStandard-".$id."-out-".date('Y-m-d').".json");
-                
-                break;
-            
-        }
-	 
- }
+$myfile = fopen("test.txt", "a");
+fwrite($myfile, date('m/d/Y h:i:s a', time()) . " " . $response . "|||" . file_get_contents("php://input"));
+fclose($myfile);
+
+
+if ($_GET["topic"] == 'payment'){
+
+	$curl = "curl -X GET 'https://api.mercadopago.com/v1/payments/".$_GET["id"]."?access_token=APP_USR-6317427424180639-042414-47e969706991d3a442922b0702a0da44-469485398'";
+  
+	$output = shell_exec($curl); 
+
+	$myfile = fopen("webhooks_output2.txt", "w");
+	fwrite($myfile, $output);
+	fclose($myfile);
+
+}
 ?>

@@ -1,27 +1,24 @@
 <?php
-http_response_code(200);
+require '../vendor/autoload.php';
+ if (isset($_GET["id"], $_GET["topic"])) {
+	MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb1955bc05b1d7dd0977a8-592190948');
+	 return response('OK', 201);
 
-foreach ($_POST as $key => $value) {
-    $response .= htmlspecialchars($key)."=".htmlspecialchars($value)."&";
-}
+        if (!isset($_GET["id"], $_GET["topic"]) || !ctype_digit($_GET["id"])) {
+            abort(404);
+        }
 
-$myfile = fopen("test.txt", "a");
-fwrite($myfile, "******************************************************************\n");
-fwrite($myfile, "* " . $response . "\n");
-fwrite($myfile, file_get_contents("php://input")) . "\n";
-fwrite($myfile, "\n\n");
-fclose($myfile);
-
-
-if ($_POST["topic"] == 'payment'){
-
-	$curl = "curl -X GET 'https://api.mercadopago.com/v1/payments/".$_GET["id"]."?access_token=APP_USR-8058997674329963-062418-89271e2424bb1955bc05b1d7dd0977a8-592190948'";
-  
-	$output = shell_exec($curl); 
-
-	$myfile = fopen("test.txt", "w");
-	fwrite($myfile, $output);
-	fclose($myfile);
-
-}
+       
+        $payment = null;
+	 
+	 switch ($_GET["topic"]) {
+            case "payment":
+                $payment = MercadoPago\Payment::find_by_id($_GET["id"]);
+                file_put_contents('test.txt', $payment);
+                
+                break;
+            
+        }
+	 
+ }
 ?>

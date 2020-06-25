@@ -4,45 +4,18 @@ require '../vendor/autoload.php';
 
 MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb1955bc05b1d7dd0977a8-592190948');
 
-  if(isset($_GET["topic"])){
+$handle = curl_init('https://cesarmdz-mp-commerce-php.herokuapp.com/webhooks.php');
 
-    $merchant_order = null;
+$data = [
+    'key' => 'value'
+];
 
-    switch($_GET["topic"]) {
-        case "payment":
-            $payment = MercadoPago\Payment::find_by_id($_GET["id"]);
-		    console.log($payment);
-            // Get the payment and the corresponding merchant_order reported by the IPN.
-            $merchant_order = MercadoPago\MerchantOrder::find_by_id($payment->order->id);
-		 console.log($merchant_order);
-            break;
-        case "merchant_order":
-            $merchant_order = MercadoPago\MerchantOrder::find_by_id($_GET["id"]);
-            break;
-    }
+$encodedData = json_encode($data);
 
-    $paid_amount = 0;
-    foreach ($merchant_order->payments as $payment) {
-        if ($payment['status'] == 'approved'){
-            $paid_amount += $payment['transaction_amount'];
-        }
-    }
+curl_setopt($handle, CURLOPT_POST, 1);
+curl_setopt($handle, CURLOPT_POSTFIELDS, $encodedData);
+curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
-    // If the payment's transaction amount is equal (or bigger) than the merchant_order's amount you can release your items
-    if($paid_amount >= $merchant_order->total_amount){
-        if (count($merchant_order->shipments)>0) { // The merchant_order has shipments
-            if($merchant_order->shipments[0]->status == "ready_to_ship") {
-		    print_r($merchant_order);
-                print_r("Totalmente pagado Imprima la etiqueta y suelte su artículo.");
-            }
-        } else { // The merchant_order don't has any shipments
-            print_r("Totalmente pagado Libera tu artículo.");
-        }
-    } else {
-        print_r("Aún no pagado. No sueltes tu artículo.");
-    }
+$result = curl_exec($handle);
 
-  }else{
-  	print_r("No sea recibido nada por GET");
-  }
 ?>

@@ -4,7 +4,7 @@ MercadoPago\SDK::setAccessToken('APP_USR-8058997674329963-062418-89271e2424bb195
 $id = '';
 $type = '';
 
-foreach($_POST as $key=>$value){
+foreach($_GET as $key=>$value){
     if (strpos($key, 'id') !== false) {
         $id = $value;
     }

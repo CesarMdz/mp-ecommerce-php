@@ -147,27 +147,15 @@ exit;
                                                  
                                                     
                                                      $preference = new MercadoPago\Preference();
-
-                                                    $preference->payment_methods = array(
-                                                        "excluded_payment_methods" => array(
-                                                          array("id" => "amex")
-                                                        ),
-                                                        "excluded_payment_types" => array(
-                                                          array("id" => "atm")
-                                                        ),
-                                                        "installments" => 6
-                                                      );
-                                                     
-                                                   $preference->back_urls = array(
+                                                      $preference->external_reference = $paymentData['external_reference'];
+                                                      $preference->notification_url="https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/notificacion.php";
+                                                      $preference->back_urls = array(
                                                          "success" => "https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/success.php",
                                                          "failure" => "https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/failure.php",
                                                          "pending" => "https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/pending.php"
                                                      );
-                                                     $preference->notification_url="https://cesarmdz-mp-commerce-php.herokuapp.com/respuesta/notificacion.php";
-                                                     $preference->auto_return = "approved";
-                                                     $preference->external_reference = "cesar.mendez.hernandez@gmail.com"; 
-                                                         
-                                                         
+                                                      $preference->auto_return = "approved";    
+                                                                                                           
                                                      $item = new MercadoPago\Item();
                                                      $item->id = 1234;
                                                      $item->title = $_POST['title'];
@@ -182,18 +170,25 @@ exit;
                                                       $payer->name = "Lalo";
                                                       $payer->surname = "Landa";
                                                       $payer->email = "test_user_58295862@testuser.com";
-                                                      $payer->date_created = "2020-06-02T18:58:41.425-04:00";
                                                       $payer->phone = array(
                                                         "area_code" => "52",
                                                         "number" => "5549737300"
                                                       );
-
                                                       $payer->address = array(
                                                         "street_name" => "Insurgentes Sur",
                                                         "street_number" => 1602,
                                                         "zip_code" => "03940"
                                                       );
-
+                                                        
+                                                      $preference->payment_methods = array(
+                                                        "excluded_payment_methods" => array(
+                                                          array("id" => "amex")
+                                                        ),
+                                                        "excluded_payment_types" => array(
+                                                          array("id" => "atm")
+                                                        ),
+                                                        "installments" => 6
+                                                      );
                                                        
                                                      
                                                      $preference->save();
